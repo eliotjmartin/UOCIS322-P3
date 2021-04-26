@@ -65,6 +65,9 @@ def keep_going():
 
 @app.route("/success")
 def success():
+    """
+    THIS AND KEEP_GOING MAY NOT BE NECESSARY 
+    """
     return flask.render_template('success.html')
 
 
@@ -83,6 +86,7 @@ def check():
     the word is on the vocab list (therefore correctly spelled),
     made only from the jumble letters, and not a word they
     already found.
+    FIXME - remove flask.flash logic and replace with JSON logic
     """
     app.logger.debug("Entering check")
 
