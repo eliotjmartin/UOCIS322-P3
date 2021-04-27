@@ -90,7 +90,7 @@
 
                if (! "ABCDEFGHIJKLMNOPQRSTUVWXYZ".includes(letter)) { return }
 
-               $.getJSON( "/_check", { text: txt }).done(
+               $.getJSON( "/_check", { txt: txt }).done(
                           function(data) {
                             e = data.error;
                             console.log(data)

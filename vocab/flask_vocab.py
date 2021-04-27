@@ -50,7 +50,7 @@ def index():
     assert flask.session["matches"] == []
     assert flask.session["target_count"] > 0
     app.logger.debug("At least one seems to be set correctly")
-    return flask.render_template('vocab.html')
+    return flask.render_template('vocab_dev.html')
 
 
 @app.route("/keep_going")
@@ -77,7 +77,7 @@ def success():
 #   a JSON request handler
 #######################
 
-@app.route("/_check", methods=["POST"])
+@app.route("/_check")
 def check():
     """
     User has submitted the form with a word ('attempt')
@@ -91,7 +91,7 @@ def check():
     app.logger.debug("Entering check")
 
     # The data we need, from form and from cookie
-    text = flask.request.form["attempt"]
+    text = flask.request.args.get('txt', type =str)
     jumble = flask.session["jumble"]
     matches = flask.session.get("matches", [])  # Default to empty list
 
