@@ -105,12 +105,15 @@ def check():
         matches.append(text)
         flask.session["matches"] = matches
     elif text in matches:
-        flask.flash("You already found {}".format(text))
+        # flask.flash("You already found {}".format(text)) ORIGINAL
+        return flask.jsonify({'error': "You already found {}".format(text)})
+
     elif not matched:
-        flask.flash("{} isn't in the list of words".format(text))
+        # flask.flash("{} isn't in the list of words".format(text)) ORIGINAL
+        return flask.jsonify({'error': "{} isn't in the list of words".format(text)})
     elif not in_jumble:
-        flask.flash(
-            '"{}" can\'t be made from the letters {}'.format(text, jumble))
+        #flask.flash('"{}" can\'t be made from the letters {}'.format(text, jumble))
+        return flask.jsonify({'error': '"{}" can\'t be made from the letters {}'.format(text, jumble)})
     else:
         app.logger.debug("This case shouldn't happen!")
         assert False  # Raises AssertionError
