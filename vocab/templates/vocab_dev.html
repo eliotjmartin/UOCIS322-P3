@@ -81,30 +81,7 @@
          </div>
          <p id="response"> </p>
          <!-- JavaScript will insert text here -->
-         <script>
-
-            $("#attempt").keyup(function(event) {
-               var txt = $("#attempt").val();  // Current content of the input field
-               var keycode = event.which;       
-               var letter = String.fromCharCode(keycode); 
-
-               if (! "ABCDEFGHIJKLMNOPQRSTUVWXYZ".includes(letter)) { return }
-
-               $.getJSON( "/_check", { txt: txt }).done(
-                          function(data) {
-                            e = data.error;
-                            console.log(data)
-                            if (e) {
-                               $("#response").html(e);
-
-                            }
-                           }
-                       ).fail(
-                          // if errors can't be handled
-                       );
-               });
-
-         </script>
+         <script src="vocab.js"></script>
          <br />
          {% if session.matches|length is not equalto 0  %}
          <h2>You found </h2>
