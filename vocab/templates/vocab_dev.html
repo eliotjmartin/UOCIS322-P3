@@ -81,8 +81,8 @@
             </div>
          </div>
          <p id="response"> </p>
+         <p id="found"> </p>
          <p id="results"></p>
-         <p id="success"></p>
          <!-- JavaScript will insert text here -->
          <script>
             $("#attempt").keyup(function(event) {
@@ -102,24 +102,31 @@
                            if (m == 0) {
                               console.log(m);
                               $("#response").html(txt+" isn't in the list of words");
+                              $("#response").css("color", "red");
                            }
                            else if (m == 1) {
                               console.log(m);
-                              $("#response").html("You found "+txt);
+                              $("#response").html("");
+                              $("#found").html("<h2>You found</h2>");
                               $("#results").html($("#results").html() + " " + txt);
                               $("#attempt").val("");
                            }
                            else if (m == 2) {
                               console.log(m);
                               $("#response").html("You already found "+txt);
+                              $("#response").css("color", "red");
                            }
                            else if (m == 3) {
                               console.log(m);
-                              $("#response").html(txt+' can\'t be made from the letters ...above');
+                              $("#response").html(txt+' can\'t be made from the letters');
+                              $("#response").css("color", "red");
                            }
                            else if (m == 4) {
                               console.log("SUCCESS!!");
-                              $("#success").html('<h2>SUCCESS! YOU FOUND ENOUGH WORDS</h2>');
+                              $("#response").html("<h2>SUCCESS! YOU FOUND ENOUGH WORDS</h2>");
+                              $("#results").hide();
+                              $("#found").hide();
+                              $("#attempt").hide();
                            }
                            }
                         ).fail(

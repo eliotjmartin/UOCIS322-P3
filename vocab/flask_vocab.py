@@ -104,7 +104,10 @@ def check():
         # Cool, they found a new word
         matches.append(text)
         flask.session["matches"] = matches
-        return flask.jsonify(m = 1)
+        if len(matches) >= flask.session["target_count"]:
+            return flask.jsonify(m=4)
+        else:
+            return flask.jsonify(m = 1)
     elif text in matches:
         # flask.flash("You already found {}".format(text)) ORIGINAL
         return flask.jsonify(m = 2)
@@ -122,9 +125,6 @@ def check():
     # Choose page:  Solved enough, or keep going?
     if len(matches) >= flask.session["target_count"]:
        return flask.jsonify(m=4)
-    else:
-        if len(matches) != 0:
-            return flask.jsonify({'matched': matches})
 
 
 ###############
