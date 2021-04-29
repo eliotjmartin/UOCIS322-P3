@@ -73,13 +73,15 @@
          <br />
          <div class="row">
             <div class="col-xs-6 text-center">
+               <!-- <label for="attempt">Word:</label> -->
                <label for="attempt">Word:</label>
                <input id="attempt" name="attempt" type="text" width="15"
                   autocomplete="off"  autofocus />
-               <input type="submit" name="try" />
+               <!--<input type="submit" name="try" />-->
             </div>
          </div>
          <p id="response"> </p>
+         <p id="results"></p>
          <!-- JavaScript will insert text here -->
          <script>
             $("#attempt").keyup(function(event) {
@@ -91,18 +93,27 @@
 
                $.getJSON( "/_check", { txt: txt }).done(
                            function(data) {
-                           m = data.message;
+                           m = data.m;
                            matched = data.matched;
                            console.log(data)
+                           console.log(m)
                            htmlString = "";
-                           if (m) {
-                              $("#response").html(m);
+                           if (m == 0) {
+                              console.log(m);
+                              $("#response").html(txt+" isn't in the list of words");
                            }
-                           if (matched) {
-                                 for (i = 0; i<matched.length; i++)
-                                    htmlString+="<p>"+matched[i] + "</p>";
-                              $("#results").html(htmlString);
-
+                           else if (m == 1) {
+                              console.log(m);
+                              $("#response").html("You found "+txt);
+                              $("#results").html($("#results").html() + " " + txt);
+                           }
+                           else if (m == 2) {
+                              console.log(m);
+                              $("#response").html("You already found "+txt);
+                           }
+                           else if (m == 3) {
+                              console.log(m);
+                              $("#response").html(txt+' can\'t be made from the letters ...above');
                            }
                            }
                         ).fail(

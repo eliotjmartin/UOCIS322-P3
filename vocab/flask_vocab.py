@@ -50,7 +50,7 @@ def index():
     assert flask.session["matches"] == []
     assert flask.session["target_count"] > 0
     app.logger.debug("At least one seems to be set correctly")
-    return flask.render_template('vocab.html')
+    return flask.render_template('vocab_dev.html')
 
 
 @app.route("/keep_going")
@@ -77,7 +77,7 @@ def success():
 #   a JSON request handler
 #######################
 
-@app.route("/_check", methods=["POST"])
+@app.route("/_check", methods=["GET"])
 def check():
     """
     User has submitted the form with a word ('attempt')
@@ -91,7 +91,7 @@ def check():
     app.logger.debug("Entering check")
 
     # The data we need, from form and from cookie
-    text = flask.request.form["attempt"]
+    text = flask.request.args.get("txt", type=str)
     jumble = flask.session["jumble"]
     matches = flask.session.get("matches", [])  # Default to empty list
 
@@ -104,17 +104,17 @@ def check():
         # Cool, they found a new word
         matches.append(text)
         flask.session["matches"] = matches
-        return flask.jsonify({'message': "<h2>You found </h2>"})
+        return flask.jsonify(m = 1)
     elif text in matches:
         # flask.flash("You already found {}".format(text)) ORIGINAL
-        return flask.jsonify({'message': "You already found {}".format(text)})
+        return flask.jsonify(m = 2)
 
     elif not matched:
         # flask.flash("{} isn't in the list of words".format(text)) ORIGINAL
-        return flask.jsonify({'message': "{} isn't in the list of words".format(text)})
+        return flask.jsonify(m = 0)
     elif not in_jumble:
         #flask.flash('"{}" can\'t be made from the letters {}'.format(text, jumble))
-        return flask.jsonify({'message': '"{}" can\'t be made from the letters {}'.format(text, jumble)})
+        return flask.jsonify(m = 3)
     else:
         app.logger.debug("This case shouldn't happen!")
         assert False  # Raises AssertionError
