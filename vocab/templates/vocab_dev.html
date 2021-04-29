@@ -82,6 +82,7 @@
          </div>
          <p id="response"> </p>
          <p id="results"></p>
+         <p id="success"></p>
          <!-- JavaScript will insert text here -->
          <script>
             $("#attempt").keyup(function(event) {
@@ -106,6 +107,7 @@
                               console.log(m);
                               $("#response").html("You found "+txt);
                               $("#results").html($("#results").html() + " " + txt);
+                              $("#attempt").val("");
                            }
                            else if (m == 2) {
                               console.log(m);
@@ -114,6 +116,10 @@
                            else if (m == 3) {
                               console.log(m);
                               $("#response").html(txt+' can\'t be made from the letters ...above');
+                           }
+                           else if (m == 4) {
+                              console.log("SUCCESS!!");
+                              $("#success").html('<h2>SUCCESS! YOU FOUND ENOUGH WORDS</h2>');
                            }
                            }
                         ).fail(

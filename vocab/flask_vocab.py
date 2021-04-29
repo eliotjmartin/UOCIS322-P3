@@ -121,7 +121,7 @@ def check():
 
     # Choose page:  Solved enough, or keep going?
     if len(matches) >= flask.session["target_count"]:
-       return flask.redirect(flask.url_for("success"))
+       return flask.jsonify(m=4)
     else:
         if len(matches) != 0:
             return flask.jsonify({'matched': matches})
