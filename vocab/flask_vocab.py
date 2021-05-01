@@ -92,6 +92,7 @@ def check():
 
     # The data we need, from form and from cookie
     text = flask.request.args.get("txt", type=str)
+    text = text.lower() # make not case sensitive
     jumble = flask.session["jumble"]
     matches = flask.session.get("matches", [])  # Default to empty list
 

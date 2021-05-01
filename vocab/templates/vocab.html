@@ -34,14 +34,14 @@
       <div class="container">
          <div class="row">
             <div class="col-xs-6 text-center">
-               <h1>Words</h1>
+               <h1 id = "caption">Words</h1>
             </div>
          </div>
          <!-- Vocabularly words layed out in 6 columns;
              bootstrap may collapse to fewer columns and
              more rows if the window is narrow.
             -->
-         <div class="row">
+         <div id="row" class="row">
             {% for word in g.vocab %}
             <div class="col-xs-2 text-center"> {{ word }} </div>
             {% if loop.index is divisibleby 3 %}
@@ -74,7 +74,7 @@
          <div class="row">
             <div class="col-xs-6 text-center">
                <!-- <label for="attempt">Word:</label> -->
-               <label for="attempt">Word:</label>
+               <label id="word" for="attempt">Word:</label>
                <input id="attempt" name="attempt" type="text" width="15"
                   autocomplete="off"  autofocus />
                <!--<input type="submit" name="try" />-->
@@ -86,7 +86,7 @@
          <!-- JavaScript will insert text here -->
          <script>
             $("#attempt").keyup(function(event) {
-               var txt = $("#attempt").val();  // Current content of the input field
+               var txt = $("#attempt").val().toLowerCase();  // Current content of the input field
                var keycode = event.which;       
                var letter = String.fromCharCode(keycode); 
 
@@ -123,10 +123,14 @@
                            }
                            else if (m == 4) {
                               console.log("SUCCESS!!");
-                              $("#response").html("<h2>SUCCESS! YOU FOUND ENOUGH WORDS</h2>");
+                              $("#caption").html("<h2>SUCCESS! GOOD WORK</h2>");
+                              $("#response").hide();
                               $("#results").hide();
                               $("#found").hide();
                               $("#attempt").hide();
+                              $("#word").hide();
+                              $("#row").hide();
+                              $("#message").hide();
                            }
                            }
                         ).fail(
