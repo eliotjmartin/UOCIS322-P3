@@ -26,8 +26,6 @@
          crossorigin="anonymous"></script>
       <!-- Let's set our title! -->
       <title>Vocabulary Anagram</title>
-      <!-- Our own css file.  Note how we can link directly here and not -->
-      <!-- write any routing code in the Flask application. -->
       <link rel="stylesheet" href="/static/jumble.css" />
    </head>
    <body>
@@ -80,10 +78,11 @@
                <!--<input type="submit" name="try" />-->
             </div>
          </div>
+         <!-- JavaScript will insert text here -->
          <p id="response"> </p>
          <p id="found"> </p>
          <p id="results"></p>
-         <!-- JavaScript will insert text here -->
+         <!-- Here is where we use AJAX to update our page without refreshing -->
          <script>
             $("#attempt").keyup(function(event) {
                var txt = $("#attempt").val().toLowerCase();  // Current content of the input field
@@ -99,29 +98,36 @@
                            console.log(data)
                            console.log(m)
                            htmlString = "";
+                           // for each value of m passed in from flask program, respond 
+                           // accordingly
                            if (m == 0) {
+                              // the word in attempt bar not in jumble
                               console.log(m);
                               $("#response").html(txt+" isn't in the list of words");
                               $("#response").css("color", "red");
                            }
                            else if (m == 1) {
+                              // create found list
                               console.log(m);
                               $("#response").html("");
-                              $("#found").html("<h2>You found</h2>");
+                              $("#found").html("<h2>You found:</h2>");
                               $("#results").html($("#results").html() + " " + txt);
                               $("#attempt").val("");
                            }
                            else if (m == 2) {
+                              // output message for already found
                               console.log(m);
                               $("#response").html("You already found "+txt);
                               $("#response").css("color", "red");
                            }
                            else if (m == 3) {
+                              // output message for wrong
                               console.log(m);
                               $("#response").html(txt+' can\'t be made from the letters');
                               $("#response").css("color", "red");
                            }
                            else if (m == 4) {
+                              // success message... hide some other stuff too
                               console.log("SUCCESS!!");
                               $("#caption").html("<h2>SUCCESS! GOOD WORK</h2>");
                               $("#response").hide();
@@ -139,22 +145,6 @@
                });
          </script>
          <br />
-         {% if session.matches|length is not equalto 0  %}
-         <h2>You found </h2>
-         <p id="results">
-            {% for match in session.matches %}
-            {{ match }}
-            {% endfor %}
-         </p>
-         {% endif %}
-         {% with messages = get_flashed_messages() %}
-         {% if messages %}
-         <!-- Mismatch, already found, etc. "flashed" from Python -->
-         {% for message in messages %}
-         <p class="message">{{ message }}</p>
-         {% endfor %}
-         {% endif %}
-         {% endwith %}
       </div>
       <!-- container -->
    </body>

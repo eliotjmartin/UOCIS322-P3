@@ -7,7 +7,7 @@ from a scrambled string)
 import flask
 import logging
 
-# Our modules
+# modules
 from src.letterbag import LetterBag
 from src.vocab import Vocab
 from src.jumble import jumbled
@@ -53,30 +53,6 @@ def index():
     return flask.render_template('vocab.html')
 
 
-@app.route("/keep_going")
-def keep_going():
-    """
-    After initial use of index, we keep the same scrambled
-    word and try to get more matches
-    """
-    flask.g.vocab = WORDS.as_list()
-    return flask.render_template('vocab.html')
-
-
-@app.route("/success")
-def success():
-    """
-    THIS AND KEEP_GOING MAY NOT BE NECESSARY 
-    """
-    return flask.render_template('success.html')
-
-
-#######################
-# Form handler.
-#   You'll need to change this to a
-#   a JSON request handler
-#######################
-
 @app.route("/_check", methods=["GET"])
 def check():
     """
@@ -86,7 +62,6 @@ def check():
     the word is on the vocab list (therefore correctly spelled),
     made only from the jumble letters, and not a word they
     already found.
-    FIXME - remove flask.flash logic and replace with JSON logic
     """
     app.logger.debug("Entering check")
 
@@ -110,14 +85,11 @@ def check():
         else:
             return flask.jsonify(m = 1)
     elif text in matches:
-        # flask.flash("You already found {}".format(text)) ORIGINAL
         return flask.jsonify(m = 2)
 
     elif not matched:
-        # flask.flash("{} isn't in the list of words".format(text)) ORIGINAL
         return flask.jsonify(m = 0)
     elif not in_jumble:
-        #flask.flash('"{}" can\'t be made from the letters {}'.format(text, jumble))
         return flask.jsonify(m = 3)
     else:
         app.logger.debug("This case shouldn't happen!")
@@ -126,21 +98,6 @@ def check():
     # Choose page:  Solved enough, or keep going?
     if len(matches) >= flask.session["target_count"]:
        return flask.jsonify(m=4)
-
-
-###############
-# AJAX request handlers
-#   These return JSON, rather than rendering pages.
-###############
-
-@app.route("/_example")
-def example():
-    """
-    Example ajax request handler
-    """
-    app.logger.debug("Got a JSON request")
-    rslt = {"key": "value"}
-    return flask.jsonify(result=rslt)
 
 
 #################
